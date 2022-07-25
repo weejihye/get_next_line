@@ -8,3 +8,4 @@
 3. open read 
 4. 하나의 배열을 만들고 나서 뒤에 배열을 더 붙여야 할 때(배열의 크기가 커질 때)
   참고 - https://basemenks.tistory.com/98
+5. buff는 '\0'을 보장하는가?
