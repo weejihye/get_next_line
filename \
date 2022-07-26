@@ -1,0 +1,138 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/21 17:06:19 by jwee              #+#    #+#             */
+/*   Updated: 2022/07/26 09:28:44 by jwee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <stdio.h>
+
+#define BUFFER_SIZE 4
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t			i;
+	const size_t	slen = ft_strlen(src);
+
+	i = 0;
+	if (!dstsize)
+		return (slen);
+	while (i < dstsize - 1 && src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (slen);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t			i;
+	const size_t	dlen = ft_strlen(dst);
+	const size_t	slen = ft_strlen(src);
+
+	i = 0;
+	if (!dstsize)
+		return (slen);
+	if (dlen >= dstsize)
+		return (slen + dstsize);
+	while (i < dstsize - dlen - 1 && i < slen)
+	{
+		dst[dlen + i] = src[i];
+		i++;
+	}
+	dst[dlen + i] = '\0';
+	return (dlen + slen);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	size_t				i;
+	char				*ps;
+	const unsigned char	uc = c;
+
+	ps = (char *)s;
+	i = 0;
+	while (ps[i])
+	{
+		if (ps[i] == uc)
+			return (ps + i);
+		i++;
+	}
+	if (ps[i] == uc)
+		return (ps + i);
+	return (0);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	const int		len1 = ft_strlen(s1);
+	const int		len2 = ft_strlen(s2);
+	char			*temp;
+	int				i;
+
+	temp = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!temp)
+		return (NULL);
+	i = 0;
+	ft_strlcpy(temp, s1, len1 + 1);
+	ft_strlcat(temp + len1, s2, len2 + 1);
+	return (temp);
+}
+
+char	*get_next_line(int fd)
+{
+	char	*buff;
+	char	*save;
+	char	*result;
+	ssize_t	i;
+
+	i = 0;
+	buff = calloc(sizeof(char) * (BUFFER_SIZE + 1), BUFFER_SIZE + 1);
+	while (!ft_strchr(buff, '\n'))
+	{
+		if (read(fd, buff, BUFFER_SIZE) < 0)
+			return (0);
+		save = ft_strjoin(save, buff);
+	}
+	i = 0;
+	while (save[i] != '\n')
+		i++;
+	result = malloc(sizeof(char) * (i + 1));
+	ft_strlcpy(result, save, i + 1);
+	result[i] = '\n';
+	return (result);
+}
+
+int	main(void)
+{
+	int	fd;
+
+	fd = open("test.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	return (0);
+}

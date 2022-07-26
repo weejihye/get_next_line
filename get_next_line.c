@@ -6,7 +6,7 @@
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 17:06:19 by jwee              #+#    #+#             */
-/*   Updated: 2022/07/26 14:31:26 by jwee             ###   ########.fr       */
+/*   Updated: 2022/07/26 15:26:19 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,16 @@ char	*get_next_line(int fd)
 	ssize_t		i;
 
 	i = 0;
-	buff = ft_calloc(sizeof(char) * (BUFFER_SIZE + 1), BUFFER_SIZE + 1);
+	buff = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	while (!ft_strchr(buff, '\n'))
 	{
-		if (read(fd, buff, BUFFER_SIZE) + 1 <= 1)
-			break ;
+		if (read(fd, buff, BUFFER_SIZE) <= 0)
+			break;
 		save = ft_strjoin(save, buff);
 	}
 	i = 0;
+	if (!save[i])
+		return (0);
 	while (save[i] != '\n')
 		i++;
 	result = malloc(sizeof(char) * (i + 1));
