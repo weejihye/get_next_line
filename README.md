@@ -10,3 +10,8 @@
   참고 - https://basemenks.tistory.com/98
 5. buff는 '\0'을 보장하는가?
 6. double linked list를 공
+
+
+read
+1) test결과 buff의 마지막이 언제나 null로 보장됨.
+2) buff의 동적할당 size와 관계없이 read 호출시 buffersize에 따라서 buff가 생성됨.
