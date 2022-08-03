@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/03 15:36:23 by jwee              #+#    #+#             */
+/*   Updated: 2022/08/03 17:31:38 by jwee             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include "get_next_line.h"
@@ -34,11 +46,12 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char	*ft_strchr(const char *s, int c)
 {
-	size_t				i;
-	char				*ps;
-	const unsigned char	uc = c;
+	size_t			i;
+	char			*ps;
+	unsigned char	uc;
 
 	ps = (char *)s;
+	uc = (unsigned char)c;
 	i = 0;
 	while (ps[i])
 	{
@@ -51,40 +64,36 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	const int		len1 = ft_strlen(s1);
-	const int		len2 = ft_strlen(s2);
-	char			*temp;
-	int				i;
+	int		len1;
+	int		len2;
+	char	*temp;
+	int		i;
 
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
 	temp = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!temp)
 		return (NULL);
 	i = 0;
 	ft_strlcpy(temp, s1, len1 + 1);
 	ft_strlcpy(temp + len1, s2, len2 + 1);
+	free(s1);
 	return (temp);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t	i;
-	size_t	j;
-	char	*temp;
+	size_t			i;
+	unsigned char	*pb;
 
 	i = 0;
-	j = 0;
-	if (ft_strlen(s) - start < len)
-		len = ft_strlen(s) - start;
-	temp = (char *)malloc(sizeof(char) * (len + 1));
-	if (!temp)
-		return (NULL);
-	while (i < len && s[start + i])
+	pb = b;
+	while (i < len)
 	{
-		temp[i] = s[start + i];
+		pb[i] = (unsigned char) c;
 		i++;
 	}
-	temp[i] = '\0';
-	return (temp);
+	return (b);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 10:37:52 by jwee              #+#    #+#             */
-/*   Updated: 2022/08/03 17:33:44 by jwee             ###   ########.fr       */
+/*   Updated: 2022/08/03 19:14:33 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <string.h>
+
+typedef struct save {
+	int		fd;
+	char	*content;
+	t_list	*next;
+}	t_list;
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/02 21:18:58 by jwee              #+#    #+#             */
-/*   Updated: 2022/08/03 18:29:01 by jwee             ###   ########.fr       */
+/*   Created: 2022/08/03 17:36:04 by jwee              #+#    #+#             */
+/*   Updated: 2022/08/03 19:12:08 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_get_line(int fd, char *save)
 {
@@ -93,11 +93,19 @@ char	*ft_get_save(char *save)
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
-	char		*result;
+	static t_list	*save;
+	char			*result;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	while (save)
+	{
+		if (save->fd == fd)
+			break;
+		save = save->next;
+	}
+	if (!save)
+		save = ft_lstnew(ft_get_line(fd,save->content));
 	save = ft_get_line(fd, save);
 	if (!save)
 		return (NULL);
