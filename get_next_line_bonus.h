@@ -6,7 +6,7 @@
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 10:37:52 by jwee              #+#    #+#             */
-/*   Updated: 2022/08/03 19:14:33 by jwee             ###   ########.fr       */
+/*   Updated: 2022/08/04 21:21:57 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 typedef struct save {
 	int		fd;
 	char	*content;
-	t_list	*next;
+	struct save	*next;
+	struct save *prev;
 }	t_list;
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *save, char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	*ft_memset(void *b, int c, size_t len);
 

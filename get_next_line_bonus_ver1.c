@@ -6,13 +6,13 @@
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 17:36:04 by jwee              #+#    #+#             */
-/*   Updated: 2022/08/04 22:49:28 by jwee             ###   ########.fr       */
+/*   Updated: 2022/08/04 22:18:00 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_get_line(int fd, char *save)
+char	*ft_get_line(int fd, t_list *save)
 {
 	char	*buff;
 	int		rsize;
@@ -32,10 +32,15 @@ char	*ft_get_line(int fd, char *save)
 			return (NULL);
 		}
 		buff[rsize] = '\0';
-		save = ft_strjoin(save, buff);
+		save->content = ft_strjoin(save->content, buff);
+		if(!save->content)
+		{
+			free(save);
+			return (NULL);
+		}
 	}
 	free(buff);
-	return (save);
+	return (save->content);
 }
 
 char	*ft_get_result(char *save)
@@ -112,30 +117,6 @@ t_list	*ft_lstadd_back(t_list **head, int fd)
 	return (temp);
 }
 
-void ft_clear_file(t_list **linked, int fd)
-{
-    t_list *ptr_current;
-    t_list *ptr_previous;
-
-    ptr_previous = *linked;
-	if (ptr_previous->fd == fd)
-	{
-		ptr_previous = ptr_previous->next;
-		free(*linked);
-		(*linked) = ptr_previous;
-		return ;
-	}
-    while (ptr_previous->next && ptr_previous->next->fd != fd) 
-		ptr_previous = ptr_previous->next;
-	ptr_current = ptr_previous->next;
-	if (ptr_current->fd == fd)
-	{
-		ptr_previous->next = ptr_current->next;
-		free(ptr_current);
-		return ;
-	}
-}
-
 char	*get_next_line(int fd)
 {
 	static t_list	*head;
@@ -149,14 +130,10 @@ char	*get_next_line(int fd)
 		save = save->next;
 	if (!save)
 		save = ft_lstadd_back(&head, fd);
-	save->content = ft_get_line(fd, save->content);
+	save->content = ft_get_line(fd, save);
+	if (!save->content)
+		return (NULL);
 	result = ft_get_result(save->content);
-	if (result)
-		save->content = ft_get_save(save);
-	else
-	{
-		free(save->content);
-		ft_clear_file(&head, fd);
-	}
+	save->content = ft_get_save(save);
 	return (result);
 }
