@@ -6,24 +6,23 @@
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 21:18:58 by jwee              #+#    #+#             */
-/*   Updated: 2022/08/03 18:29:01 by jwee             ###   ########.fr       */
+/*   Updated: 2022/08/10 18:46:16 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_get_line(int fd, char *save)
+static char	*ft_get_line(int fd, char *save)
 {
 	char	*buff;
 	int		rsize;
 
-	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	ft_memset(buff, 0, BUFFER_SIZE + 1);
-	if (!buff)
-		return (NULL);
 	rsize = 1;
-	while (!ft_strchr(buff, '\n') && rsize)
+	while (!ft_strchr(save, '\n') && rsize)
 	{
+		buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (!buff)
+			return (NULL);
 		rsize = read(fd, buff, BUFFER_SIZE);
 		if (rsize < 0)
 		{
@@ -32,12 +31,12 @@ char	*ft_get_line(int fd, char *save)
 		}
 		buff[rsize] = '\0';
 		save = ft_strjoin(save, buff);
+		free(buff);
 	}
-	free(buff);
 	return (save);
 }
 
-char	*ft_get_result(char *save)
+static char	*ft_get_result(char *save)
 {
 	int		i;
 	char	*temp;
@@ -65,7 +64,7 @@ char	*ft_get_result(char *save)
 	return (temp);
 }
 
-char	*ft_get_save(char *save)
+static char	*ft_get_save(char *save)
 {
 	int		i;
 	int		j;

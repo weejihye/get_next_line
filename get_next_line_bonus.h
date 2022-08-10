@@ -5,32 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwee <jwee@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 10:37:52 by jwee              #+#    #+#             */
-/*   Updated: 2022/08/04 21:21:57 by jwee             ###   ########.fr       */
+/*   Created: 2022/08/10 19:08:17 by jwee              #+#    #+#             */
+/*   Updated: 2022/08/10 19:08:42 by jwee             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
-# include <stdlib.h>
-# include <fcntl.h>
 # include <unistd.h>
-# include <string.h>
+# include <stdlib.h>
 
-typedef struct save {
-	int		fd;
-	char	*content;
-	struct save	*next;
-	struct save *prev;
+typedef struct s_save {
+	int				fd;
+	char			*content;
+	struct s_save	*next;
 }	t_list;
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_strjoin(char *temp, char *buff);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char *save, char *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	*ft_memset(void *b, int c, size_t len);
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+void	ft_clear_node(t_list **head, int fd);
 
 #endif
